@@ -1,23 +1,21 @@
-import logo from './logo.svg';
 import './App.css';
-
+import { API } from 'aws-amplify'
+import React, { useEffect, useState } from 'react'
+const myAPI = "getGreeting"
+const path = '/greeting'; 
 function App() {
+  const [greeting, setGreeting] = useState('test')
+
+  useEffect(() => {
+    async function fetchData() {
+      let result = await API.get(myAPI, path);
+      setGreeting(result);
+    }
+    fetchData();
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>{greeting}</p>
     </div>
   );
 }
